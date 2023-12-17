@@ -1,0 +1,14 @@
+### GAEでデプロイするためのファイルです
+
+
+#インストールされているバージョンによって末尾の数字調整
+runtime: python311
+
+# 下記は 設定用ディレクトリ.wsgi:application のように記述
+entrypoint: gunicorn -b :$PORT veg_project.wsgi:application
+
+# 下記はhttpでアクセスがあった際、httpsにリダイレクトするための記述
+handlers:
+ - url: .*
+   secure: always
+   script: auto
