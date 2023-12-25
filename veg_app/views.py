@@ -27,8 +27,6 @@ def load_csv_data():
             for index, row in df.iterrows():
                 veg_name = row["veg_name"]
                 veg_datetime = row["datetime"]
-                # veg_year = int(row["year"])  # 文字列から整数型へ変換
-                # veg_month = int(row["month"])  # 文字列から整数型へ変換
                 veg_price = int(row["price"])
             
                 VegPriceTrend.objects.create(

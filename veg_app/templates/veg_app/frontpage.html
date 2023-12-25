@@ -85,7 +85,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th style="padding-right: 10px; text-align:center;"> 野菜名 </th>
+                        {% comment %} <th style="padding-right: 10px; text-align:center;"> 野菜名 </th> {% endcomment %}
                         <th style="padding-right: 10px; text-align:center;"> 予測日 </th>
                         <th style="padding-right: 10px; text-align:center;"> 予測価格 </th>
                     </tr>
@@ -94,7 +94,7 @@
                     <!--予測結果を反復処理して表示-->
                     {% for prediction in view_list %}
                         <tr>
-                            <td style="padding-right: 10px; text-align:center;"> {{ prediction.selected_veg }} </td>
+                            {% comment %} <td style="padding-right: 10px; text-align:center;"> {{ prediction.selected_veg }} </td> {% endcomment %}
                             <td style="padding-right: 10px; text-align:center;"> {{ prediction.selected_date }} </td>
                             <td style="padding-right: 10px; text-align:center;"> {{ prediction.prediction_price }}円 </td>
                         </tr>
