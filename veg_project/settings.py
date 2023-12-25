@@ -12,22 +12,25 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import environ
+# デプロイ前は以下をコメントアウトしてください
+# import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # ローカル環境で行う際は以下を使用（デプロイ時はコメントアウト）
-# DEBUG = True
+DEBUG = True
 # デプロイ時は以下を使用します
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, '.env'))
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+# env = environ.Env()
+# env.read_env(os.path.join(BASE_DIR, '.env'))
+# SECRET_KEY = env('SECRET_KEY')
+# DEBUG = env('DEBUG')
 
-
-ALLOWED_HOSTS = env.list["ALLOWED_HOSTS"]
+# デプロイ以外は以下を使用します
+ALLOWED_HOSTS = []
+# デプロイ時は以下を使用します
+# ALLOWED_HOSTS = env.list["ALLOWED_HOSTS"]
 
 
 # Application definition
@@ -79,9 +82,9 @@ WSGI_APPLICATION = 'veg_project.wsgi.application'
 # デプロイ時は、ENGINEとNAMEをコメントアウトにします
 DATABASES = {
     'default': {
-        'default': env.db(),
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'default': env.db(),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
