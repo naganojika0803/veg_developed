@@ -30,7 +30,7 @@ DEBUG = env('DEBUG')
 # デプロイ以外は以下を使用します
 # ALLOWED_HOSTS = []
 # デプロイ時は以下を使用します
-LLOWED_HOSTS = env.list["ALLOWED_HOSTS"]
+LLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
