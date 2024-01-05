@@ -10,18 +10,19 @@
         {% comment %} CSSのflexboxを使用 {% endcomment %}
             body {
                 display:flex;
+		margin:0;
+		padding:0;
+		max-height:100vh;
+		background:linear-gradient(90deg,#778899 0%, #778899 25%, #B0C4DE 25%, #B0C4DE 100%);
             }
             /*idがleftである要素に対して*/
             #left {
-                flex:1;      /*要素が親要素(body)内で残りスペースを等分するように伸縮可能*/
-                padding:20px;/*要素の内側の余白を20pxに設定*/
-                background-color:#778899; /*グレーに近い青*/
+                flex:1;     /* 要素が親要素(body)内で残りスペースを等分するように伸縮可能*/
+                background-color:#778899;/* グレーに近い青*/
             }
             #right {
                 flex:3;      /*左側の要素よりも倍のスペースを占めるように伸縮可能*/
-                padding:20px;
                 background-color:#B0C4DE;
-                display:flex; /*右側をさらに分割するために追加*/
                 flex-direction:column;
             }
             /*右側のページを上下に分割する*/
@@ -48,7 +49,7 @@
             }
             /*グラフと画像のスタイルを設定*/
             #right img {
-                max-width: 100%; /* 画像が親要素を超えないようにする */
+                max-width: 80%;/* 画像が親要素を超えないようにする */
                 height: auto; /* アスペクト比を維持しながらサイズ調整 */
                 background-color: #B0C4DE; /* グラフの背景色を統一 */
             }
@@ -109,7 +110,7 @@
             <div id="right-top">
                 <h3>価格推移</h3>
                 <br>
-                <img src="data:image/png;base64,{{ graphic_transit }}" alt="価格の推移">
+                <img src="data:image/png;base64,{{ graphic_transit }}" alt="価格の推移", style="max-width:100%;">
             </div>
             <!--ヒストグラム-->
             <div id="right-bottom">
@@ -127,4 +128,4 @@
         </div>
     </body>
 </html>
-           
+          

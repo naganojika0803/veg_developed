@@ -30,7 +30,7 @@ DEBUG = env('DEBUG')
 # デプロイ以外は以下を使用します
 # ALLOWED_HOSTS = []
 # デプロイ時は以下を使用します
-LLOWED_HOSTS = env.list["ALLOWED_HOSTS"]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -81,12 +81,10 @@ WSGI_APPLICATION = 'veg_project.wsgi.application'
 
 # デプロイ時は、ENGINEとNAMEをコメントアウトにします
 DATABASES = {
-    'default': {
         'default': env.db(),
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+     }
 
 
 # Password validation

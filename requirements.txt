@@ -5,8 +5,8 @@ charset-normalizer==3.3.2
 config==0.5.1
 cryptography==41.0.7
 defusedxml==0.7.1
-Django==3.0
-django-allauth==0.59.0
+Django>=3.2
+django-allauth>=0.59.0
 gunicorn==21.2.0
 idna==3.6
 oauthlib==3.2.2
@@ -24,3 +24,5 @@ urllib3==2.1.0
 gunicorn
 psycopg2
 environ
+kaleido
+pandas
