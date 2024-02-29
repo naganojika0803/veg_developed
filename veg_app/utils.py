@@ -2,7 +2,14 @@
 from io import BytesIO
 import base64
 import plotly.graph_objects as go
-from datetime import datetime
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use("Agg")
+import seaborn as sns
+import japanize_matplotlib
+from datetime import datetime, timedelta
+import numpy as np
+import pandas as pd
 
 # 表示させるグラフを作成する関数
 def create_graph(selected_veg_data, selected_veg):
@@ -74,3 +81,96 @@ def create_graph(selected_veg_data, selected_veg):
     
     # return
     return graphic_transit, graphic_box, graphic_hist
+
+
+
+def WeatherGraph(weather_df, item):
+    """
+    weather_df:気象情報が格納されたDataFrame
+    weather_item:可視化する気象情報
+    """
+    # 可視化するデータはviews.pyの関数でデータを事前に抽出します(県名)
+    # 項目を指定してplotを行うデータを抽出する
+    fig_title = {"mean_temp_average":"平均気温", 
+                 "temp_more_30_days":"30度以上の日数", 
+                 "total_sunshine_for_3month":"日照時間の平均",
+                 "rain_days":"降雨日数"}
+    plot_df = weather_df[weather_df["item"]==item]
+    plt.figure(figsize=(12,8))
+    sns.lineplot(data=plot_df, x="datetime", y="amount")
+    plt.title(f"{fig_title[item]}の推移")
+    plt.xlabel("日付")
+    plt.ylabel("amount")
+    plt.tight_layout()
+    graph = GraphToImage()
+
+    return graph
+
+# グラフを保存する過程を関数化
+def GraphToImage():
+    buffer = BytesIO()
+    plt.savefig(buffer, format="png")
+    buffer.seek(0)
+    img = buffer.getvalue()
+    graph = base64.b64encode(img).decode("utf-8")
+    buffer.close()
+    return graph
+    
+
+class CreateGraphs(object):
+# Vegetable_detailで生産量の棒グラフを作成する
+    def ProduceAmountPlot(share_data, month):
+        # share_data：野菜ごと分けられた月毎、出荷都道府県ごとの出荷量のデータ
+        # month：対象月
+        plot_df = share_data[share_data["month"]==month].sort_values("amount", ascending=False)
+        plt.figure(figsize=(12,8))
+        sns.barplot(data=plot_df, x="pref_name", y="amount")
+        vegetable_name = plot_df.iloc[0]["vegetable_name"]
+        plt.title(f"{vegetable_name}の{month}月  入荷量（令和元年）")
+        plt.xlabel("都道府県")
+        plt.ylabel("入荷量")
+        plt.tight_layout()
+        graph = GraphToImage()
+        
+        return graph
+    
+    def PriceTransitPlot(price_data):
+        vegetable_name = price_data.loc[0,"veg_name"]
+        plt.figure(figsize=(12,8))
+        sns.lineplot(data=price_data[price_data["actual_predict"]=="actual"], x="veg_datetime", y="veg_price", color="blue", label="実測値")
+        sns.lineplot(data=price_data[price_data["actual_predict"]=="predict"], x="veg_datetime", y="veg_price", color="red", label="予測値")
+        plt.title(f'{vegetable_name}の価格推移')
+        plt.xlabel("datetime")
+        plt.ylabel("価格")
+        plt.legend()
+        plt.tight_layout()
+        graph = GraphToImage()
+        
+        return graph
+        
+        
+def GetWeatherInformation(weather_data):
+    weather_information = {}
+    # 直近90日の平均値
+    today = datetime.now().date()
+    start_day = today - timedelta(days=30)
+    end_day = today - timedelta(days=1)
+    weather_data["datetime"] = pd.to_datetime(weather_data["datetime"])
+    weather_data_this_year = weather_data[(weather_data["datetime"]>=start_day)&(weather_data["datetime"]<=end_day)]
+    weather_data_past  = weather_data[weather_data["datetime"]<=start_day]
+        
+    item_list = ["mean_temp_average", "temp_more_30_days", "total_sunshine_for_3month", "rain_days"]
+        
+    for item in item_list:
+        weather_information[f"this_year_{item}"] = np.mean(weather_data_this_year[item])
+        weather_information[f"past_{item}"] = np.mean(weather_data_past[item])
+            
+    return weather_information
+        
+        
+    
+    
+    
+    
+    
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>野菜の価格</title>
+    <style>
+        header {
+            background-image: url("./../static/images/app_header.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            color: white;
+            text-align: center;
+            padding-top: 0px;
+            margin: 0;
+        }
+        .vegetable-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 野菜ブロックを中央に配置 */
+            gap: 0px; /* 野菜ブロック間の間隔を設定 */
+            padding: 0px; /* コンテンツの余白 */
+            margin: 0;
+        }
+        .vegetable {
+            height: 150px;
+            width: 200px;
+            margin: 0px;
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0;
+        }
+        .name {
+            text-align: center;
+            font-weight: bold;
+        }
+        .price {
+            text-align: center;
+            color: #666;
+            margin: auto;
+            color: white;
+            font-weight: bold;
+        }
+        .rate {
+            text-align: center;
+            color: #666;
+            margin: auto;
+            color: white;
+            font-weight: bold;
+        }
+        .top {
+            background-color: #99ccff;
+            flex: 2;
+            cursor: pointer; /* マウスカーソルをポインターに変更 */
+        }
+        .bottom {
+            background-color: #ffcc99;
+            flex: 8;
+            background-size: cover;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            cursor: pointer; /* マウスカーソルをポインターに変更 */
+        }
+        .bottom img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>titele of this site</h1>
+    </header>
+    <h3>野菜ごとの予測値</h3>
+    <!--今日の日付を取得する-->
+    <div id="current_date">
+        <script>
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("current_date").innerHTML = new Date().toLocaleDateString('ja-JP', options);
+        </script>
+        の予測値
+    </div>
+    <div class="vegetable-container">
+        {% for vegetable, data in view_dict.items %}
+        <a href="{% url "vegetable_detail" vegetable_name=vegetable %}" class="vegetable">
+        <div class="vegetable">
+            <div class="top">
+                <div class="name">{{ vegetable }}</div>
+            </div>
+            <div class="bottom" style="background-image: url('{{ data.image_path }}')">
+                <div class="price">予測価格<br>{{ data.today_price }}円</div>
+                <div class="rate">
+                    先週比<br>{{ data.comparison_rate }}%
+                    {% if data.comparison_rate >= 1 %}
+                        <span style="color: red; font-weight: bold;">↗︎</span>
+                    {% elif data.comparison_rate == 1 %}
+                        <span style="color: green; font-weight: bold;">→</span>
+                    {% else %}
+                        <span style="color: blue; font-weight: bold;">↘︎</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+    

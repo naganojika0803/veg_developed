@@ -13,24 +13,26 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 # デプロイ前は以下をコメントアウトしてください
-import environ
+# import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # ローカル環境で行う際は以下を使用（デプロイ時はコメントアウト）
-# DEBUG = True
+DEBUG = True
+SECRET_KEY = "secret"
 # デプロイ時は以下を使用します
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, '.env'))
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+# env = environ.Env()
+# env.read_env(os.path.join(BASE_DIR, '.env'))
+# SECRET_KEY = env('SECRET_KEY')
+# DEBUG = env('DEBUG')
 
 # デプロイ以外は以下を使用します
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []
+
 # デプロイ時は以下を使用します
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -81,10 +83,17 @@ WSGI_APPLICATION = 'veg_project.wsgi.application'
 
 # デプロイ時は、ENGINEとNAMEをコメントアウトにします
 DATABASES = {
-        'default': env.db(),
+        # 'default': env.db(),
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
      }
+# 開発時は以下を使用してください
+DATABASES = {
+        'default':{
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+     }
+}
 
 
 # Password validation
@@ -122,7 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'veg_app/static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

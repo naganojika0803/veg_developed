@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from veg_app.views import some_view
+from veg_app.views import frontpage, vegetable_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", some_view, name="some_view")
+    path("frontpage", frontpage, name="frontpage"),
+    path("vegetable/<str:vegetable_name>/", vegetable_detail, name="vegetable_detail")
 ]
 

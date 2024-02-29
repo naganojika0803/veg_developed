@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ vegetable_name }}の詳細ページ</title>
+    <style>
+        header {
+            background-image: url("./../static/images/app_header.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            color: white;
+            text-align: center;
+            padding-top: 0px;
+            margin: 0;
+        }
+
+
+<form method="get">
+    {{ month_form.as_p }}
+    {{ date_form.as_p }}
+    <button type="submit">Show Graph</button>
+</form>
+{% if predicted_price %}
+    {{ predicted_price }}円 </td>
+{% endif %}
+
+<img src="data:image/png;base64, {{ produce_plot }}" alt="生産地", style="max-width:100%;">
+<img src="data:image/png;base64, {{ price_plot }}" alt="価格推移", style="max-width:100%;">
