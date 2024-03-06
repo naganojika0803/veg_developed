@@ -33,11 +33,11 @@ vegetable_image_path = {"キャベツ":"./static/images/kyabetsu.jpg", "レタ�
 
 
 # ローカルのデータをデータベースに格納する      
-# load_csv_data() 
+# load_csv_data()
 # load_predicted_csv()
 # load_weather_csv()
 # load_price_data_by_pref()
-load_share_csv()
+# load_share_csv()
 
 # dbから指定されたデータを取り出す
 # some_viewsに指定された野菜のデータのみを抜き出し、グラフにするために、
